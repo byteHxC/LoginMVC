@@ -19,7 +19,7 @@ public class ControllerGerente implements ActionListener {
     Empleado empleado = new Empleado();
     
     public ControllerGerente(){
-        
+        System.out.println("hola hijo de perra");
     }
 
     @Override
