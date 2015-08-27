@@ -6,6 +6,7 @@
 package controller;
 
 import java.awt.event.*;
+import javax.swing.JOptionPane;
 import model.*;
 import view.JFGerente;
 
@@ -18,12 +19,26 @@ public class ControllerGerente implements ActionListener {
     EmpleadoDAO modeloGerente = new EmpleadoDAO();
     Empleado empleado = new Empleado();
     
-    public ControllerGerente(){
-        System.out.println("hola hijo de perra, baby");
+    String dni,password,privilegio;
+    public ControllerGerente(JFGerente vistaGerente,EmpleadoDAO modeloGerente){
+        this.vistaGerente=vistaGerente;
+        this.modeloGerente=modeloGerente;
+        this.vistaGerente.btnGetData.addActionListener(this);
     }
 
+    
+    public void inicializaGerente(String dni,String password,String privilegio){
+        this.dni=dni;
+        this.password=password;
+        this.privilegio=privilegio;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-       
+       empleado=modeloGerente.verifyUser(dni, password, privilegio);
+       String str="DATOS DE USUARIO GERENTE \nNombre completo: "+empleado.getNombres()+" "+empleado.getApellidos()+
+       "\nPrivilegio: "+empleado.getPrivilegio();
+       JOptionPane.showMessageDialog(vistaGerente,str);
     }
+   
 }
