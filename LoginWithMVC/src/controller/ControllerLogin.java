@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.*;
 import javax.swing.*;
 import model.*;
+import view.JFGerente;
 import view.JFLogin;
 
 /*
@@ -40,7 +41,13 @@ public class ControllerLogin implements ActionListener {
         
         if(empleado!=null){
             JOptionPane.showMessageDialog(vistaLogin,"Datos correctos");
-
+            JFGerente viewGerente = new JFGerente();
+            ControllerGerente controllerG = new ControllerGerente(viewGerente,modeloLogin);
+            controllerG.inicializaGerente(dni, password, privilegio);
+            viewGerente.setVisible(true);
+            viewGerente.setLocationRelativeTo(null);
+            vistaLogin.setVisible(false);
+            
         }else{
             JOptionPane.showMessageDialog(vistaLogin,"Empleado con datos ingresados no encontrado");
         }

@@ -20,11 +20,13 @@ public class EmpleadoDAO {
         Empleado empleado=null;
         Connection accesoDB=ConnectionMySQL.getConnection();
         try{
-            PreparedStatement pps=accesoDB.prepareStatement("SELECT *FROM WHERE dni=? and password=? and privilegio=?");
+            PreparedStatement pps=accesoDB.prepareStatement("SELECT *FROM empleados WHERE dni=? and password=? and privilegio=?");
             pps.setString(1, dni);
             pps.setString(2, password);
             pps.setString(3, privilegio);
         ResultSet rs=pps.executeQuery();
+        
+            System.out.println("pasa");
         if(rs.next()){
             empleado=new Empleado();
             empleado.setDni(rs.getString(1));
@@ -35,7 +37,7 @@ public class EmpleadoDAO {
             return empleado;
         }
         }catch(SQLException sqle){
-            System.out.println("Error: verifyPPS()->SQLException");
+            System.out.println("Error: verifyUser()->SQLException"+sqle.getMessage());
         }
         
         

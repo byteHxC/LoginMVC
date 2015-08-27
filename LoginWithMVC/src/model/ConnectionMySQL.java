@@ -19,14 +19,15 @@ public class ConnectionMySQL {
     public static Connection getConnection(){
         Connection cn=null;
         try{
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bd_mvc","root","#%mysql/1");
             
+            Class.forName("com.mysql.jdbc.Driver");
+            cn=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3307/SystemWithMySQLx","root","#%xampp/1");
+            System.out.println("Connection successful");
                     
         }catch(SQLException sqle){
-            System.out.println("Error: getConnection()->SQLException");
+            System.out.println("Error: getConnection()->SQLException"+sqle.getMessage());
         }catch(Exception e){
-            System.out.println("Error: getConnection()->Exception");
+            System.out.println("Error: getConnection()->Exception"+e.getMessage());
         }
         return cn;
     }
