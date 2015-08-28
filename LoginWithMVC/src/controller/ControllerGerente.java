@@ -7,6 +7,7 @@ package controller;
 
 import java.awt.event.*;
 import javax.swing.JOptionPane;
+import mainProject.ProjectMain;
 import model.*;
 import view.JFGerente;
 
@@ -14,16 +15,33 @@ import view.JFGerente;
  *
  * @author ByteDrive
  */
-public class ControllerGerente implements ActionListener {
-    JFGerente vistaGerente = new JFGerente();
-    EmpleadoDAO modeloGerente = new EmpleadoDAO();
-    Empleado empleado = new Empleado();
+public class ControllerGerente  {
+    JFGerente vistaGerente;
+    Empleado empleado ;
     
     String dni,password,privilegio;
-    public ControllerGerente(JFGerente vistaGerente,EmpleadoDAO modeloGerente){
-        this.vistaGerente = vistaGerente;
-        this.modeloGerente = modeloGerente;
-        this.vistaGerente.btnGetData.addActionListener(this);
+    public ControllerGerente(){
+        this.vistaGerente = new JFGerente();
+        this.empleado = new Empleado();
+       
+        
+        //Eventos
+        this.vistaGerente.btnGetData.addActionListener((ActionEvent e)->{
+                empleado = ControllerDB.verifyUser(dni, password, privilegio);
+                String str = "DATOS DE USUARIO GERENTE \nNombre completo: " + empleado.getNombres() + " "+empleado.getApellidos() +
+                "\nPrivilegio: " + empleado.getPrivilegio();
+                JOptionPane.showMessageDialog(vistaGerente,str);
+        });
+        
+        this.vistaGerente.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ProjectMain.init();
+                vistaGerente.dispose();
+            }
+        });
+        
+        
     }
 
     
@@ -33,12 +51,5 @@ public class ControllerGerente implements ActionListener {
         this.privilegio = privilegio;
     }
     
-    @Override
-    public void actionPerformed(ActionEvent e) {
-       empleado = modeloGerente.verifyUser(dni, password, privilegio);
-       String str = "DATOS DE USUARIO GERENTE \nNombre completo: " + empleado.getNombres() + " "+empleado.getApellidos() +
-        "\nPrivilegio: " + empleado.getPrivilegio();
-       JOptionPane.showMessageDialog(vistaGerente,str);
-    }
    
 }

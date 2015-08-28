@@ -3,7 +3,6 @@ package controller;
 import java.awt.event.*;
 import javax.swing.*;
 import model.*;
-import view.JFGerente;
 import view.JFLogin;
 
 /*
@@ -17,41 +16,30 @@ import view.JFLogin;
  *
  * @author ByteDrive
  */
-public class ControllerLogin implements ActionListener {
+public class ControllerLogin  {
     JFLogin vistaLogin = new JFLogin();
-    EmpleadoDAO modeloLogin = new EmpleadoDAO();
     Empleado empleado = new Empleado();
     
-    public ControllerLogin(JFLogin vistaLogin,EmpleadoDAO modeloLogin){
-        this.vistaLogin=vistaLogin;
-        this.modeloLogin=modeloLogin;
-        this.vistaLogin.btnIngresar.addActionListener(this);
-    }
-    
-    public void inicialziarLogin(){
+    public ControllerLogin(){
         
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e){
+        //Evento de la vista 
+        this.vistaLogin.btnIngresar.addActionListener((ActionEvent e)->{
         String dni = (vistaLogin.txtDni.getText().length()>0) ? vistaLogin.txtDni.getText() : null;
         String password = String.valueOf((vistaLogin.txtPassword.getPassword().length>0 ) ? vistaLogin.txtPassword.getText() : null);
         String privilegio=String.valueOf(vistaLogin.cboxPrivilegio.getSelectedItem());
-        empleado=modeloLogin.verifyUser(dni, password, privilegio);
+        empleado=ControllerDB.verifyUser(dni, password, privilegio);
         
         if(empleado!=null){
             JOptionPane.showMessageDialog(vistaLogin,"Datos correctos");
-            JFGerente viewGerente = new JFGerente();
-            ControllerGerente controllerG = new ControllerGerente(viewGerente,modeloLogin);
+            
+            ControllerGerente controllerG = new ControllerGerente();
             controllerG.inicializaGerente(dni, password, privilegio);
-            viewGerente.setVisible(true);
-            viewGerente.setLocationRelativeTo(null);
-            vistaLogin.setVisible(false);
+            vistaLogin.dispose();
             
         }else{
             JOptionPane.showMessageDialog(vistaLogin,"Empleado con datos ingresados no encontrado");
         }
-        
+        });
     }
 
 }

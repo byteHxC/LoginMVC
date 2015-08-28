@@ -9,14 +9,12 @@ import java.sql.*;
  *
  * @author ByteDrive
  */
-public class EmpleadoDAO {
-    //ConnectionMySQL cnmysql;
+public class ControllerDB {
     
-    public EmpleadoDAO(){
-        //this.cnmysql=new ConnectionMySQL();
+    public ControllerDB(){
     }
     
-    public Empleado verifyUser(String dni,String password,String privilegio){
+    public static Empleado verifyUser(String dni,String password,String privilegio){
         Empleado empleado=null;
         Connection accesoDB=ConnectionMySQL.getConnection();
         try{
@@ -25,8 +23,6 @@ public class EmpleadoDAO {
             pps.setString(2, password);
             pps.setString(3, privilegio);
         ResultSet rs=pps.executeQuery();
-        
-            System.out.println("pasa");
         if(rs.next()){
             empleado=new Empleado();
             empleado.setDni(rs.getString(1));
